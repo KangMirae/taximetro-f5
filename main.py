@@ -1,7 +1,18 @@
 import time
 
 def calc(option, duration):
-    return None
+
+    match option:
+        # 이동
+        case '1': 
+            rate = 0.05
+        # 정차
+        case '2': 
+            rate = 0.02
+    fare = duration * rate
+
+    return fare
+
 
 def taximetro():
 
@@ -20,7 +31,7 @@ def taximetro():
         if answer == 'Y':
             state_start_time = time.time()
             fare = 0.0
-            option = 0
+            prev_option = '1'
 
             # 루프2 시작
             while True:
@@ -30,16 +41,17 @@ def taximetro():
                 "2. Stop\n"
                 "3. Arrive\n"
                 "Please choose a number (1-3)")
-                option = input("> ").strip()
+                curr_option = input("> ").strip()
                 duration = time.time() - state_start_time # 이전 옵션부터 지금까지의 초 계산
 
-                if option == '3': # 도착일 시
-                    fare += calc(option, duration)
-                    print(f"Total fare is {fare} euros. ")
+                if curr_option == '3': # 도착일 시
+                    fare += calc(prev_option, duration)
+                    print(f"Total fare is € {fare:.2f} ")
                     break # 루프2 종료
                 else: # 이동 또는 멈춤일 시
-                    fare += calc(option, duration)
+                    fare += calc(prev_option, duration)
                     state_start_time = time.time()
+                    prev_option = curr_option
 
         # 출발 N, Ask if user wants to terminate the program
         print(f"{customer_name}, are you sure you want to leave? (Y/N) \n")
