@@ -13,19 +13,21 @@ def calc(option, duration):
 
     return fare
 
-
 def taximetro():
 
     # Welcome message
     customer_name = input('\n\nTell us your name: ')
-    print("Welcome, {}".format(customer_name))
+    print("\nWelcome, {}".format(customer_name))
     print("We're starting our journey. Please, fasten your seatbelt!\n")
 
     # 루프1 시작
     while True:
-        # 출발해 말아
-        print("I'm ready. Should we go? (Y/N) \n")
+        print("I'm ready. Should we go? (Y/N)")
         answer = input("> ").strip().upper()
+        # input validation for departing, 루프1-1
+        while answer not in ('Y','N'):
+            print("Please enter Y or N.")
+            answer = input("> ").strip().upper()
         
         # Selected 'Y' to departure, taxi started moving
         if answer == 'Y':
@@ -36,17 +38,22 @@ def taximetro():
             # 루프2 시작
             while True:
                 # 여정 선택, User Choose an option. (input) 
-                print("Select an option. \n"
+                print("\nSelect an option. \n"
                 "1. Move\n"
                 "2. Stop\n"
                 "3. Arrive\n"
                 "Please choose a number (1-3)")
                 curr_option = input("> ").strip()
+                # input validation for choosing options, 루프2-1
+                while curr_option not in ('1','2','3'):
+                    print("Please enter 1,2, or 3")
+                    curr_option = input("> ").strip()
+
                 duration = time.time() - state_start_time # 이전 옵션부터 지금까지의 초 계산
 
                 if curr_option == '3': # 도착일 시
                     fare += calc(prev_option, duration)
-                    print(f"Total fare is € {fare:.2f} ")
+                    print(f"\n----- Total fare is € {fare:.2f} -----")
                     break # 루프2 종료
                 else: # 이동 또는 멈춤일 시
                     fare += calc(prev_option, duration)
@@ -54,18 +61,22 @@ def taximetro():
                     prev_option = curr_option
 
         # 출발 N, Ask if user wants to terminate the program
-        print(f"{customer_name}, are you sure you want to leave? (Y/N) \n")
+        print(f"\n{customer_name}, are you sure you want to leave? (Y/N)")
         answer = input("> ").strip().upper() 
 
+        # input validation for terminating, 루프3
+        while answer not in ('Y','N'): 
+            print("Please enter Y or N ")
+            answer = input("> ").strip().upper() 
+
         if answer == 'Y': 
-            print("User said Yes.")
+            print("\nUser said Yes.")
             print("Thank you!")
             break # 루프1 종료
 
         elif answer == 'N':
-            print("User said No.")
+            print("User said No.\n")
             continue
 
-        
 if __name__ == "__main__":
     taximetro()
