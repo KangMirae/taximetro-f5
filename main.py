@@ -90,6 +90,7 @@ def taximetro():
                 duration = time.time() - state_start_time # 이전 옵션부터 지금까지의 초 계산
 
                 if curr_option == '3': # 도착일 시
+                    print("\nTrip finished!")
                     fare += calc(prev_option, duration)
                     logging.info(
                         f"Trip finished. Last segment option={prev_option}, "
@@ -104,6 +105,11 @@ def taximetro():
                         f"State change: {prev_option} -> {curr_option}, "
                         f"segment duration={duration:.2f}s, accumulated fare={fare:.2f}"
                     )
+
+                    if curr_option == '1':
+                        print("Taxi is now moving...")
+                    elif curr_option == '2':
+                        print("Taxi has stopped.")
                     
                     state_start_time = time.time()
                     prev_option = curr_option
