@@ -39,7 +39,13 @@ def calc(option, duration):
 def taximetro():
 
     # Welcome message
-    customer_name = input('\n\nTell us your name: ')
+    print("\n\n----------------------------------------\n" \
+    "Digital Taximeter - CLI Version\n" \
+    "This program simulates a real taxi meter.\n" \
+    "You can start a trip, stop, move again,\n" \
+    "and end the journey to calculate the fare.\n" \
+    "----------------------------------------\n")
+    customer_name = input('Tell us your name: ')
     logging.info(f"New customer: {customer_name}")  # 새 손님 로그
 
     print("\nWelcome, {}".format(customer_name))
