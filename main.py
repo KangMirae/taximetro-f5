@@ -13,6 +13,26 @@ DEFAULT_RATES = {"1": 0.05, "2": 0.02}
 RATES = None
 
 def load_rates(config_path="rates.json"):
+    '''
+    Load dynamic pricing rates from an external JSON configuration file.
+
+    Parameters:
+        config_path (str): Path to the JSON file containing rate settings.
+
+    Behavior:
+        - If the file exists, loads rates for:
+            '1' → moving rate (€/sec)
+            '2' → stopped rate (€/sec)
+        - If the file does not exist or is invalid, default rates are used.
+        - Ensures all expected keys exist by falling back to default values.
+
+    Returns:
+        dict: A dictionary containing the final rates to be used by the program.
+
+    Notes:
+        - This function enables price configuration based on demand (Nivel Medio).
+        - Populates the global RATES variable with validated values.
+    '''
     global RATES
 
     if not os.path.exists(config_path):
@@ -35,9 +55,18 @@ def load_rates(config_path="rates.json"):
         
 # ---------- logging ----------
 def setup_logging():
-    """
-    로그를 콘솔 + 파일(taximetro.log) 둘 다에 남긴다.
-    """
+    '''
+    Configure logging for the entire application.
+
+    Behavior:
+        - Logs are written to both console and taximetro.log.
+        - Includes timestamps, log levels, and descriptive messages.
+        - Enables debugging and traceability of user actions and system states.
+
+    Notes:
+        - Required for Nivel Medio logging feature.
+        - Automatically called during program startup.
+    '''
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
@@ -49,6 +78,23 @@ def setup_logging():
 
 # ---------- fare calculation ----------
 def calc(option, duration):
+    '''
+    Calculate the fare for a given state and time duration.
+
+    Parameters:
+        option (str): 
+            '1' → taxi moving  
+            '2' → taxi stopped
+        duration (float): 
+            Time spent in this state (seconds)
+
+    Returns:
+        float: Fare calculated using the current configured rate.
+
+    Notes:
+        - Rates are loaded dynamically from the external configuration file (rates.json).
+        - Uses the global RATES dictionary filled during program initialization.
+    '''
     # 전역 RATES에서 요금 읽어오기
     rate = RATES[option]
 
@@ -64,8 +110,22 @@ def calc(option, duration):
 # ---------- trip history saving in txt file ----------
 def save_trip_history(customer_name, total_fare, history_path="trip_history.txt"):
     """
+    Save a completed trip record into a plain text file.
     한 번의 여정이 끝날 때마다 텍스트 파일에 기록 저장.
-    형식: YYYY-MM-DD HH:MM:SS | 이름 | 요금
+
+    Parameters:
+        customer_name (str): Name of the customer taking the trip.
+        total_fare (float): Final total fare calculated at the end of the trip.
+        history_path (str): File path where trip history will be saved.
+
+    Behavior:
+        - Appends a new line for every completed trip.
+        - Each entry includes timestamp, customer name, and total fare.
+        - Creates the file if it does not exist.
+
+    Format:
+        YYYY-MM-DD HH:MM:SS | <customer_name> | <fare>
+        형식: YYYY-MM-DD HH:MM:SS | 이름 | 요금
     """
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     line = f"{timestamp} | {customer_name} | {total_fare:.2f}\n"
@@ -80,6 +140,17 @@ def save_trip_history(customer_name, total_fare, history_path="trip_history.txt"
 
 # ---------- taximeter main logic ----------
 def taximetro():
+    '''
+    Main function for managing the taxi meter system (CLI version).
+
+    - Greets the user and starts the program.
+    - Allows user to start a trip.
+    - Tracks time for each state: moving and stopped.
+    - Calculates fare based on configurable rates.
+    - Shows status messages when state changes.
+    - Saves trip history to a text file when the trip ends.
+    - Allows the user to start a new trip or exit the program.
+    '''
 
     # Welcome message
     print("\n\n----------------------------------------\n" \
@@ -179,6 +250,10 @@ def taximetro():
             continue
 
 if __name__ == "__main__":
+    # Program entry point:
+    # - logging is configured
+    # - pricing rates are loaded
+    # - the taxi meter system starts
     setup_logging()
     load_rates()
     taximetro()
