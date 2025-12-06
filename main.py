@@ -1,5 +1,6 @@
 import time
 import logging
+from datetime import datetime
 
 # ---------- logging ----------
 def setup_logging():
@@ -34,6 +35,24 @@ def calc(option, duration):
     )
 
     return fare
+
+
+# ---------- trip history saving in txt file ----------
+def save_trip_history(customer_name, total_fare, history_path="trip_history.txt"):
+    """
+    한 번의 여정이 끝날 때마다 텍스트 파일에 기록 저장.
+    형식: YYYY-MM-DD HH:MM:SS | 이름 | 요금
+    """
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    line = f"{timestamp} | {customer_name} | {total_fare:.2f}\n"
+
+    try:
+        with open(history_path, "a", encoding="utf-8") as f:
+            f.write(line)
+        logging.info(f"Saved trip history: {line.strip()}")
+    except Exception:
+        logging.exception("Error saving trip history.")
+
 
 # ---------- taximeter main logic ----------
 def taximetro():
@@ -96,8 +115,9 @@ def taximetro():
                         f"Trip finished. Last segment option={prev_option}, "
                         f"duration={duration:.2f}s, total fare={fare:.2f}"
                     )
-
                     print(f"\n----- Total fare is € {fare:.2f} -----")
+
+                    save_trip_history(customer_name, fare) # 여정 저장
                     break # 루프2 종료
                 else: # 이동 또는 멈춤일 시
                     fare += calc(prev_option, duration)
