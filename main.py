@@ -1,7 +1,38 @@
 import time
 import logging
+import json
+import os
 from datetime import datetime
 
+
+# ---------- rate 외부에서 불러오기 ----------
+# 기본 요금 (파일이 없을 때 사용할 값)
+DEFAULT_RATES = {"1": 0.05, "2": 0.02}
+
+# 실제로 사용할 요금값
+RATES = None
+
+def load_rates(config_path="rates.json"):
+    global RATES
+
+    if not os.path.exists(config_path):
+        logging.info("rates.json not found. Using default rates.")
+        RATES = DEFAULT_RATES.copy()
+        return
+
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        for k, v in DEFAULT_RATES.items():
+            data.setdefault(k, v)
+
+        logging.info(f"Loaded rates from {config_path}: {data}")
+        RATES = data  # ← 여기서 전역 RATES에 값 넣음
+    except Exception:
+        logging.exception("Error loading rates config. Using default rates.")
+        RATES = DEFAULT_RATES.copy()
+        
 # ---------- logging ----------
 def setup_logging():
     """
@@ -18,24 +49,17 @@ def setup_logging():
 
 # ---------- fare calculation ----------
 def calc(option, duration):
+    # 전역 RATES에서 요금 읽어오기
+    rate = RATES[option]
 
-    match option:
-        # 이동
-        case '1': 
-            rate = 0.05
-        # 정차
-        case '2': 
-            rate = 0.02
     fare = duration * rate
 
-    # logging : option, duration
     logging.info(
         f"calc() called - option={option}, duration={duration:.2f}s, "
         f"rate={rate}, fare={fare:.2f}"
     )
 
     return fare
-
 
 # ---------- trip history saving in txt file ----------
 def save_trip_history(customer_name, total_fare, history_path="trip_history.txt"):
@@ -156,4 +180,5 @@ def taximetro():
 
 if __name__ == "__main__":
     setup_logging()
+    load_rates()
     taximetro()
