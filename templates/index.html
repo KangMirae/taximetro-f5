@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taximeter App</title>
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- MAIN SCREEN -->
+        <div id="screen-home" class="screen active">
+            <h1 class="logo-title">TAXIMETER</h1>
+            
+            <div class="input-area">
+                <input type="text" id="inputName" placeholder="place your name">
+                <div class="underline"></div>
+            </div>
+
+            <div class="description">
+                <p class="description-title">About Digital Taximeter Simulator</p>
+                <p class="description-content">This application simulates a real taxi meter system with time-based fare calculation. 
+                    The fare is dynamically updated depending on the taxi state (moving or stopped), selected fare level, and optional surcharges such as out-of-city or night rates. 
+                    All calculations are handled on the server to ensure accuracy and consistency, while the interface reflects real-time updates. 
+                    Fare rules and applied options are intentionally revealed only at the end of the trip, mimicking real-world taxi behavior. 
+                    Trip history is automatically stored and can be reviewed at any time.
+                </p>
+            </div>
+
+            <div class="level-selector">
+                <p>Select fare level of this trip</p>
+                <div class="level-buttons">
+                    <button class="lvl-btn selected" onclick="selectLevel(1)">1</button>
+                    <button class="lvl-btn" onclick="selectLevel(2)">2</button>
+                    <button class="lvl-btn" onclick="selectLevel(3)">3</button>
+                    <button class="lvl-btn" onclick="selectLevel(4)">4</button>
+                </div>
+            </div>
+
+            <div class="action-buttons-home">
+                <button class="btn-main" onclick="startTrip()">START</button>
+                <button class="btn-text" onclick="showHistory()">history</button>
+            </div>
+        </div>
+
+        <!-- TRIP SCREEN -->
+        <div id="screen-trip" class="screen">
+            <h2 class="customer-title"><span id="displayCustomer"></span>'s trip</h2>
+            
+            <div class="fare-display">
+                <span class="currency">€</span>
+                <span id="displayFare" class="digital-number">0.00</span>
+            </div>
+
+            <!-- Info Circles (multiplier)
+            <div class="info-container">
+                <div class="info-circle">
+                    <span class="info-label">Level</span>
+                    <span class="info-val" id="infoLevel">1</span>
+                    <div class="info-rates">
+                        <small>move <span id="infoMove">0.05</span>/s</small><br>
+                        <small>stop <span id="infoStop">0.02</span>/s</small>
+                    </div>
+                </div>
+                <div class="info-circle">
+                    <span class="info-label">Option</span>
+                    <div class="info-options" id="infoOptions">
+                        <small>-</small>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- log section (scrollable) -->
+            <div class="log-container" id="logList">
+                <!-- log here (js) -->
+            </div>
+
+            <div class="options-area">
+                <p>Surcharge</p>
+                <div class="option-buttons">
+                    <button class="opt-btn" id="btnOptCity" onclick="toggleOption('city')">out-of-town surcharge</button>
+                    <button class="opt-btn" id="btnOptNight" onclick="toggleOption('night')">night surcharge</button>
+                </div>
+            </div>
+
+            <div class="action-buttons-trip">
+                <button class="btn-main" id="btnAction" onclick="toggleState()">STOP</button>
+                <button class="btn-text" onclick="finishTrip()">Arrive</button>
+            </div>
+        </div>
+
+        <!-- FINISH SCREEN -->
+        <div id="screen-finish" class="screen">
+            <h2 class="customer-title"><span id="finishCustomer"></span>'s trip</h2>
+            
+            <div class="fare-display">
+                <span class="currency">€</span>
+                <span id="finishFare" class="digital-number">0.00</span>
+            </div>
+
+            <!-- [MOVED] Info Circles (multiplier) -->
+            <div class="info-container">
+                <div class="info-circle">
+                    <span class="info-label">Level</span>
+                    <span class="info-val" id="finishInfoLevel">-</span>
+                    <div class="info-rates">
+                        <small>move <span id="finishInfoMove">-</span>/s</small><br>
+                        <small>stop <span id="finishInfoStop">-</span>/s</small>
+                    </div>
+                </div>
+
+                <div class="info-circle">
+                    <span class="info-label">Option</span>
+                    <div class="info-options" id="finishInfoOptions">
+                        <small>-</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="summary-info">
+                 <p>Trip finished</p>
+            </div> -->
+
+            <div class="action-buttons-finish">
+                <!-- new trip starts with same customer -->
+                <button class="btn-main" onclick="restartSameUser()"> New trip 🚕</button>
+                <button class="btn-text" onclick="resetApp()">Go back to Main</button>
+            </div>
+        </div>
+
+        <!-- history page (modal) -->
+        <div id="screen-history" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Trip history</h2>
+                    <span class="close-btn" onclick="closeHistory()">close</span>
+                </div>
+                <div class="history-table-container">
+                    <table id="historyTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Fare</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- history here (js) -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <footer>
+            <div class="footer-line"></div>
+            <p>TAXIMETER</p>
+        </footer>
+
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
