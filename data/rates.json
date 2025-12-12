@@ -1,4 +1,23 @@
 {
-    "1": 0.05,
-    "2": 0.02
+    "base_rates": {
+        "1": 0.05,
+        "2": 0.02
+    },
+    "levels": {
+        "1": 1.0,
+        "2": 1.2,
+        "3": 1.4,
+        "4": 1.6
+    },
+    "options": {
+        "city": {
+            "name": "Out of City",
+            "multiplier": 1.08
+        },
+        "night": {
+            "name": "Night Surcharge",
+            "multiplier": 1.2
+        }
+    },
+    "update_interval_sec": 5
 }
