@@ -2,6 +2,7 @@
 .vscode/
 *.log
 data/taximetro.log
-*.txt
+data/trip_history.txt
 **/__pycache__/
 .DS_Store
+.env
