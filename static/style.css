@@ -1,0 +1,337 @@
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --gray-bg: #EAEAEA;
+    --btn-gray: #D9D9D9;
+    --btn-active: #B0B0B0;
+    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+body {
+    background-color: #222; /* app exterier */
+    font-family: sans-serif, 'Noto Sans KR';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* mobile frame */
+.app-container {
+    width: 375px;
+    height: 812px;
+    background-color: var(--bg-color);
+    position: relative;
+    overflow: hidden; /* inner scroll control */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Class for screen transition */
+.screen {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+    align-items: center;
+    text-align: center;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* --- HOME SCREEN --- */
+.logo-title {
+    font-size: 32px;
+    color: #888;
+    margin-top: 60px;
+    margin-bottom: 50px;
+    font-weight: 700;
+}
+
+.input-area {
+    width: 80%;
+    margin-bottom: 40px;
+}
+#inputName {
+    width: 100%;
+    border: none;
+    font-size: 20px;
+    text-align: center;
+    color: #555;
+    background: transparent;
+    outline: none;
+}
+.underline {
+    height: 2px;
+    background-color: #ccc;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.description {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.level-selector {
+    width: 100%;
+    background-color: #F0F0F0;
+    padding: 15px;
+    border-radius: 10px;
+    /* margin-bottom: 40px; */
+}
+.level-selector p {
+    text-align: left;
+    margin: 0 0 10px 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+.level-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+.lvl-btn {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #D9D9D9;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+}
+.lvl-btn.selected {
+    background-color: #999;
+    color: white;
+    border: 2px solid #555;
+}
+
+/* --- TRIP SCREEN --- */
+.customer-title {
+    font-size: 18px;
+    color: #888;
+    margin-top: 40px;
+    align-self: flex-start;
+}
+
+.fare-display {
+    font-family: 'Orbitron', sans-serif; /* google font */
+    font-size: 64px;
+    color: #555;
+    margin: 20px 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+.currency {
+    font-size: 30px;
+    margin-top: 10px;
+    margin-right: 5px;
+}
+
+.log-container {
+    width: 100%;
+    height: 150px;
+    overflow-y: auto; /* scrollable */
+    font-family: sans-serif;
+    font-size: 12px;
+    color: #666;
+    text-align: right;
+    margin-bottom: 20px;
+}
+.log-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 0;
+}
+
+.options-area {
+    width: 100%;
+    background-color: #F0F0F0;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 60px;
+}
+.options-area p {
+    text-align: left;
+    margin: 0 0 10px 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+.option-buttons {
+    display: flex;
+    gap: 10px;
+}
+.opt-btn {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #D9D9D9;
+    font-size: 16px;
+    /* font-weight: bold; */
+    cursor: pointer;
+    box-shadow: var(--shadow);
+}
+.opt-btn.active {
+    background-color: #666;
+    color: white;
+}
+
+/* --- BUTTONS --- */
+.btn-main {
+    width: 100%;
+    padding: 15px;
+    background-color: #D9D9D9;
+    border: none;
+    border-radius: 30px;
+    font-size: 22px;
+    color: #555;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    margin: 30px 0 15px 0;
+}
+.btn-main:active {
+    background-color: #bbb;
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #333;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* --- FOOTER --- */
+footer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+.footer-line {
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    margin-bottom: 10px;
+}
+footer p {
+    font-size: 12px;
+    color: #aaa;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+/* --- MODAL (HISTORY) --- */
+.modal {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 10;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.modal-content {
+    padding: 30px;
+    /* height: 100%; */
+    box-sizing: border-box;
+    height: auto;
+    min-height: 100%;
+    padding-bottom: 50px;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.modal-header h2 {
+    font-size: 32px;
+    color: #888;
+    margin: 0;
+}
+.close-btn {
+    font-size: 16px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+/* [NEW] Info Circles Style */
+.info-container {
+    display: flex;
+    margin: 50px 0;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.info-circle {
+    width: 100px;
+    height: 100px;
+    background-color: #E0E0E0; /* gray background */
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.info-label {
+    font-size: 10px;
+    color: #666;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+
+.info-val {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    font-family: sans-serif, 'Orbitron';
+}
+
+.info-rates {
+    font-size: 9px;
+    color: #555;
+    line-height: 1.2;
+}
+
+.info-options {
+    font-size: 10px;
+    font-weight: bold;
+    color: #C0392B; /* highlight color */
+    line-height: 1.1;
+}
+
+/* descriptions */
+.description-title {
+    font-weight: bold;
+}
+.description-content {
+    font-size: 12px;
+}

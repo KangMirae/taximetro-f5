@@ -1,5 +1,8 @@
 .venv
 .vscode/
 *.log
-*.txt
+data/taximetro.log
+data/trip_history.json
 **/__pycache__/
+.DS_Store
+.env
