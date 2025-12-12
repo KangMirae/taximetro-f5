@@ -124,9 +124,3 @@ You can modify the pricing logic without changing the code by editing `data/rate
 ## 👩‍💻 Author
 
 *   **Mirae Kang** - *Development & Refactoring*
-
----
-
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
